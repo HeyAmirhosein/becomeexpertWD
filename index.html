@@ -5,90 +5,108 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Random Photos !!</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
   </head>
   <body>
-    <div class="card white">
-      <div class="card-content white-text">
-        <span class="card-title indigo-text">Settings</span>
-        <div class="settings">
-          <div class="row">
-            <div class="input-field col s4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title text-primary">Settings</h5>
+        <form>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="imageLimit" class="form-label">Limit of Images</label>
               <input
                 type="number"
                 id="imageLimit"
-                data-length="14"
-                class="validate"
+                class="form-control"
                 min="1"
                 max="100"
               />
-              <label for="imageLimit">Limit of Images</label>
             </div>
-            <div class="input-field col s4">
-              <input type="number" id="blurRate" min="0" max="10" />
-              <label for="blurRate">Blur Rate</label>
-            </div>
-            <div class="input-field col s4">
-              <p>
-                <label>
-                  <input id="grayScale" type="checkbox" />
-                  <span>GrayScales</span>
-                </label>
-              </p>
+            <div class="col-md-6">
+              <label for="blurRate" class="form-label">Blur Rate</label>
+              <input
+                type="number"
+                id="blurRate"
+                class="form-control"
+                min="0"
+                max="10"
+              />
             </div>
           </div>
-          <div class="row">
-            <div class="input-field col s4">
-              <label>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="form-check">
+                <input
+                  id="grayScale"
+                  type="checkbox"
+                  class="form-check-input"
+                />
+                <label class="form-check-label" for="grayScale"
+                  >Grayscale</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="form-check">
                 <input
                   id="setSize"
                   type="checkbox"
+                  class="form-check-input"
                   onchange="setSize(this.checked)"
                 />
-                <span>Set Size?</span>
-              </label>
+                <label class="form-check-label" for="setSize">Set Size?</label>
+              </div>
             </div>
-            <div class="input-field col s4">
-              <input id="imageWidth" type="number" disabled />
-              <label for="imageWidth">Width</label>
+            <div class="col-md-4">
+              <label for="imageWidth" class="form-label">Width</label>
+              <input
+                id="imageWidth"
+                type="number"
+                class="form-control"
+                disabled
+              />
             </div>
-            <div class="input-field col s4">
-              <input type="number" id="imageHeight" disabled />
-              <label for="imageHeight">Height</label>
+            <div class="col-md-4">
+              <label for="imageHeight" class="form-label">Height</label>
+              <input
+                id="imageHeight"
+                type="number"
+                class="form-control"
+                disabled
+              />
             </div>
           </div>
-        </div>
+
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="darkModeToggle"
+                />
+                <label class="form-check-label" for="darkModeToggle"
+                  >Dark Mode</label
+                >
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="card-action">
-        <button
-          class="waves-effect waves-light btn orange darken-4"
-          id="applySettings"
-        >
-          Apply
-        </button>
-        <button
-          class="waves-effect waves-light btn grey darken-4"
-          id="resetSettings"
-        >
-          Reset
-        </button>
+
+      <div class="card-footer">
+        <button class="btn btn-warning" id="applySettings">Apply</button>
+        <button class="btn btn-secondary" id="resetSettings">Reset</button>
       </div>
     </div>
     <div class="image-container"></div>
-    <a
-      class="btn btn-floating btn-large waves-effect waves-light red"
-      id="showMore"
-      ><i class="material-icons">add</i></a
-    >
 
     <script src="index.js"></script>
   </body>

@@ -1,76 +1,110 @@
 const imageContainerEl = document.querySelector(".image-container");
 const imageLimitInput = document.querySelector("#imageLimit");
+const blurRateInput = document.querySelector("#blurRate");
+const grayScaleInput = document.querySelector("#grayScale");
+const setSizeCheckbox = document.querySelector("#setSize");
+const widthInput = document.querySelector("#imageWidth");
+const heightInput = document.querySelector("#imageHeight");
 const applySettingsBtn = document.querySelector("#applySettings");
 const resetSettingsBtn = document.querySelector("#resetSettings");
-const btnEl = document.querySelector("#showMore");
+const darkModeToggle = document.querySelector("#darkModeToggle");
 let limit = 0;
 let count = 0;
 
-// Apply Settings
 applySettingsBtn.addEventListener("click", () => {
   const userLimit = parseInt(imageLimitInput.value, 10);
+  const blurRate = blurRateInput.value || 0;
+  const isGrayScale = grayScaleInput.checked;
+  const setSize = setSizeCheckbox.checked;
+  const width = widthInput.value || 200;
+  const height = heightInput.value || 300;
 
-  // Check if input is a valid number and within the limit (1-100) and length is not exceeded
   if (isNaN(userLimit) || userLimit < 1 || userLimit > 100) {
     alert("Please enter a valid number between 1 and 100.");
-  } else {
-    limit = userLimit;
-    localStorage.setItem("imageLimit", limit);
-    alert(`Settings applied: Image limit set to ${limit}`);
-    loadImages(limit); // Load images after applying settings
-  }
-});
-
-// Reset Settings
-resetSettingsBtn.addEventListener("click", () => {
-  localStorage.removeItem("imageLimit");
-  imageLimitInput.value = "1";
-  limit = 0;
-  count = 0;
-  imageContainerEl.innerHTML = ""; // Clear images on reset
-  alert("Settings reset.");
-});
-
-// Show More Button
-btnEl.addEventListener("click", () => {
-  if (limit === 0) {
-    alert("Please apply valid settings first.");
     return;
   }
-  if (count < limit) {
-    addNewImages(2);
-  } else {
-    alert("Image limit reached!");
+
+  // Save settings to localStorage
+  localStorage.setItem("imageLimit", userLimit);
+  localStorage.setItem("blurRate", blurRate);
+  localStorage.setItem("grayScale", isGrayScale);
+  localStorage.setItem("setSize", setSize);
+  localStorage.setItem("imageWidth", width);
+  localStorage.setItem("imageHeight", height);
+
+  limit = userLimit;
+  imageContainerEl.innerHTML = "";
+  count = 0;
+
+  for (let i = 0; i < limit; i++) {
+    const imgEl = document.createElement("img");
+    const random = Math.random();
+    let src = `https://picsum.photos/${width}/${height}?random=${random}`;
+    if (blurRate > 0) src += `&blur=${blurRate}`;
+    if (isGrayScale) src += `&grayscale`;
+
+    const imageWrapper = document.createElement("div");
+    imageWrapper.classList.add("image-wrapper");
+    imageWrapper.style.width = `${width}px`;
+    imageWrapper.style.height = `${height}px`;
+
+    imgEl.src = src;
+    imageWrapper.appendChild(imgEl);
+    imageContainerEl.appendChild(imageWrapper);
+    count++;
   }
 });
 
-// Add New Images
-function addNewImages(imageNum) {
-  for (let i = 0; i < imageNum; i++) {
-    if (count >= limit) break;
-    const randomNumber = Math.floor(Math.random() * 2000);
-    const imgEl = document.createElement("img");
-    imgEl.src = `https://picsum.photos/300?random=${randomNumber}`;
-    imageContainerEl.appendChild(imgEl);
-    count++;
-  }
-}
+resetSettingsBtn.addEventListener("click", () => {
+  localStorage.clear();
+  imageLimitInput.value = "";
+  blurRateInput.value = "";
+  grayScaleInput.checked = false;
+  setSizeCheckbox.checked = false;
+  widthInput.disabled = true;
+  widthInput.value = "";
+  heightInput.disabled = true;
+  heightInput.value = "";
+  imageContainerEl.innerHTML = "";
+  limit = 0;
+  count = 0;
+  darkModeToggle.checked = false;
+  document.body.classList.remove("dark-mode");
+});
 
-// Load images based on the limit
-function loadImages(imageNum) {
-  imageContainerEl.innerHTML = ""; // Clear the container before loading new images
-  count = 0; // Reset count when loading new images
-  for (let i = 0; i < imageNum; i++) {
-    addNewImages(1);
-  }
-}
+setSizeCheckbox.addEventListener("change", (e) => {
+  const enabled = e.target.checked;
+  widthInput.disabled = !enabled;
+  heightInput.disabled = !enabled;
+});
 
-// Initialize Settings from Local Storage
+darkModeToggle.addEventListener("change", (e) => {
+  document.body.classList.toggle("dark-mode", e.target.checked);
+  localStorage.setItem("darkMode", e.target.checked);
+});
+
 window.addEventListener("load", () => {
   const storedLimit = localStorage.getItem("imageLimit");
-  if (storedLimit) {
-    limit = parseInt(storedLimit, 10);
-    imageLimitInput.value = limit;
+  const storedBlurRate = localStorage.getItem("blurRate");
+  const storedGrayScale = localStorage.getItem("grayScale");
+  const storedSetSize = localStorage.getItem("setSize");
+  const storedWidth = localStorage.getItem("imageWidth");
+  const storedHeight = localStorage.getItem("imageHeight");
+  const storedDarkMode = localStorage.getItem("darkMode");
+
+  if (storedLimit) imageLimitInput.value = storedLimit;
+  if (storedBlurRate) blurRateInput.value = storedBlurRate;
+  if (storedGrayScale === "true") grayScaleInput.checked = true;
+  if (storedSetSize === "true") {
+    setSizeCheckbox.checked = true;
+    widthInput.disabled = false;
+    heightInput.disabled = false;
+  }
+  if (storedWidth) widthInput.value = storedWidth;
+  if (storedHeight) heightInput.value = storedHeight;
+  if (storedDarkMode === "true") {
+    darkModeToggle.checked = true;
+    document.body.classList.add("dark-mode");
   }
 });
 
