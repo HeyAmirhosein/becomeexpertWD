@@ -6,8 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Random Photos !!</title>
     <link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   </head>
   <body>
@@ -17,7 +23,14 @@
         <div class="settings">
           <div class="row">
             <div class="input-field col s4">
-              <input type="number" id="imageLimit" data-length="14" class="validate">
+              <input
+                type="number"
+                id="imageLimit"
+                data-length="14"
+                class="validate"
+                min="1"
+                max="100"
+              />
               <label for="imageLimit">Limit of Images</label>
             </div>
             <div class="input-field col s4">
@@ -36,29 +49,47 @@
           <div class="row">
             <div class="input-field col s4">
               <label>
-                <input id="setSize" type="checkbox" onchange="setSize(this.checked)" />
+                <input
+                  id="setSize"
+                  type="checkbox"
+                  onchange="setSize(this.checked)"
+                />
                 <span>Set Size?</span>
               </label>
             </div>
             <div class="input-field col s4">
-              <input id="imageWidth" type="number" disabled/>
-              <label for="imageWidth">Width</span>
+              <input id="imageWidth" type="number" disabled />
+              <label for="imageWidth">Width</label>
             </div>
             <div class="input-field col s4">
-              <input type="number" id="imageHeight" disabled>
+              <input type="number" id="imageHeight" disabled />
               <label for="imageHeight">Height</label>
             </div>
           </div>
         </div>
-          </div>
+      </div>
       <div class="card-action">
-        <button class="waves-effect waves-light btn orange darken-4" type="button">Apply</a>
-        <button class="waves-effect waves-light btn grey darken-4" type="button">Reset</a>
+        <button
+          class="waves-effect waves-light btn orange darken-4"
+          id="applySettings"
+        >
+          Apply
+        </button>
+        <button
+          class="waves-effect waves-light btn grey darken-4"
+          id="resetSettings"
+        >
+          Reset
+        </button>
       </div>
     </div>
-    <div class="image-container">
-    </div>
-    <a class="btn btn-floating btn-large waves-effect waves-light red" id="showMore"><i class="material-icons">add</i></a>
+    <div class="image-container"></div>
+    <a
+      class="btn btn-floating btn-large waves-effect waves-light red"
+      id="showMore"
+      ><i class="material-icons">add</i></a
+    >
+
     <script src="index.js"></script>
   </body>
 </html>
